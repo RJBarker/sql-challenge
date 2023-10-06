@@ -12,13 +12,11 @@ SELECT first_name, last_name, hire_date
 FROM employees
 WHERE date_part('year',hire_date) = 1986
 
--- 3. Manager for each depart department nmbr, depart name, emp_no, last_name, first_name
-SELECT dept_no,
-	(SELECT dept_name
-	FROM departments
-	WHERE dept_manager.dept_no = departments.dept_no),
-emp_no,
-	(SELECT last_name, first_name
-	FROM employees
-	WHERE dept_manager.emp_no = employees.emp_no)
-FROM dept_manager;
+-- 3. Manager for each depart - department nmbr, depart name, emp_no, last_name, first_name
+SELECT dm.dept_no, d.dept_name, dm.emp_no, e.last_name, e.first_name
+FROM dept_manager dm
+INNER JOIN departments d
+ON dm.dept_no = d.dept_no
+INNER JOIN employees e
+ON dm.emp_no = e.emp_no;
+
